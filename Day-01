@@ -1,7 +1,6 @@
 # DSA Journey — 30 Days
 
 I am learning Data Structures and Algorithms from scratch.
-My goal is to crack product based company interviews.
 I will push what I learn every single day for 30 days.
 
 Language I am using : Python
@@ -111,9 +110,7 @@ I will ask myself three questions:
 This is also what interviewers ask. So I want to make it a habit
 from day one itself.
 
-### My score today
 
-I took a quiz at the end of the day and scored 38 out of 40.
 The only thing I got slightly wrong was the reason why sets are
 fast. I said it is because of uniqueness but the real reason is
 hashing. I will not forget this again.
