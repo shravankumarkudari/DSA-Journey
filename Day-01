@@ -1,0 +1,120 @@
+# DSA Journey — 30 Days
+
+I am learning Data Structures and Algorithms from scratch.
+My goal is to crack product based company interviews.
+I will push what I learn every single day for 30 days.
+
+Language I am using : Python
+
+---
+
+## Day 01 — Time and Space Complexity
+
+Today I learned about Big-O notation. Before today I used to just
+write code that gives the correct answer. I never thought about
+how fast it runs or how much memory it uses. Today that changed.
+
+### What I understood
+
+Big-O is basically asking one question — if my input becomes very
+large, how does my code behave? Does it slow down a little or a lot?
+
+For example if I have 1 million elements in a list:
+- O(1) code still does just 1 step
+- O(n) code does 1 million steps
+- O(n²) code does 1 trillion steps and will practically freeze
+
+That example made it very clear to me why complexity matters.
+
+### The order I memorized
+
+O(1) → O(log n) → O(n) → O(n log n) → O(n²) → O(2ⁿ)
+
+Left side is fast. Right side is slow. Always try to stay on the left.
+
+### How I identify complexity by looking at code
+
+If there is no loop → O(1)  
+If there is one loop → O(n)  
+If there are two nested loops → O(n²)  
+If input is halved each step like binary search → O(log n)  
+If there are two separate loops (not nested) → still O(n)  
+
+The two separate loops one confused me at first. I thought it would
+be O(n²) but it is actually O(n) + O(n) = O(2n) = O(n) because
+we drop the constant.
+
+### The 4 rules I will use every time
+
+1. Drop constants — O(3n) is just O(n)
+2. Drop smaller terms — O(n² + n) is just O(n²)
+3. Nested loops multiply — two nested loops = O(n²)
+4. Sequential loops add but take the largest — O(n) + O(n²) = O(n²)
+
+### Space complexity
+
+This is about extra memory the code uses. Not the input itself,
+only the extra memory I create inside the function.
+
+If I create a new list of size n → O(n) space  
+If I only use a few variables → O(1) space  
+If I use recursion → the call stack also takes O(n) space  
+
+I used to never think about space. Now I will always ask both:
+what is the time and what is the space.
+
+### The mistake I made today
+
+I thought sets are fast because they store only unique elements.
+That is wrong. Sets are fast because of hashing. Hashing lets the
+set jump directly to where the element would be without checking
+every element one by one.
+
+So `x in my_list` is O(n) — checks every element  
+And `x in my_set` is O(1) — hashing jumps directly  
+
+This is one of the most important things I learned today.
+
+### Python built-ins I now know the complexity of
+
+| Operation | Complexity |
+|-----------|------------|
+| list[i] | O(1) |
+| list.append(x) | O(1) |
+| list.insert(0, x) | O(n) |
+| x in list | O(n) |
+| x in set | O(1) |
+| dict[key] | O(1) |
+| len(list) | O(1) |
+
+### Problems I solved today
+
+**LC 1480 — Running Sum of 1D Array**  
+At first I created a new result list and appended the running total.
+That gave me O(n) time and O(n) space.  
+Then I realized I can just modify the input array itself and save
+that extra space. Final solution is O(n) time and O(1) space.
+
+**LC 1732 — Find the Highest Altitude**  
+I just kept a running total of altitude and tracked the maximum.
+Only two variables needed. O(n) time and O(1) space.
+
+### How I will apply this going forward
+
+Every single time I write a solution from now, before I submit it
+I will ask myself three questions:
+
+1. What is the time complexity?
+2. What is the space complexity?
+3. Can I do better?
+
+This is also what interviewers ask. So I want to make it a habit
+from day one itself.
+
+### My score today
+
+I took a quiz at the end of the day and scored 38 out of 40.
+The only thing I got slightly wrong was the reason why sets are
+fast. I said it is because of uniqueness but the real reason is
+hashing. I will not forget this again.
+
