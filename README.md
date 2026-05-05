@@ -2,15 +2,6 @@
 
 Studying Data Structures & Algorithms from scratch
 
-## 📅 Progress Tracker
-
-| Day | Topic | Status |
-|-----|-------|--------|
-| Day 01 | Big-O Notation | ✅ Done |
-| Day 02 | Recursion | 🔄 In Progress |
-| Day 03 | Arrays Basics | ⏳ Pending |
-| Day 04 | Arrays II | ⏳ Pending |
-| Day 05 | Review + Test | ⏳ Pending |
 
 ## 🗺️ Roadmap
 - **Phase 1 (Days 1–5):** Basics — Big-O, Recursion
