@@ -1,0 +1,160 @@
+# Day 2 — Recursion
+
+Today I learned recursion. Honestly when I first heard the word
+I thought it was going to be very complicated. But once I understood
+the core idea it was simpler than I expected.
+
+---
+
+## What is Recursion
+
+Recursion is when a function calls itself to solve a smaller version
+of the same problem.
+
+## The Two Things Every Recursive Function Must Have
+
+1. Base case — this tells the function when to stop
+2. Recursive case — this calls the function again with a smaller input
+
+If you forget the base case the function calls itself forever and
+you get a RecursionError. I learned this the hard way today.
+
+---
+
+## Understanding Through Factorial
+
+Factorial of n means multiply all numbers from n down to 1.
+factorial(4) = 4 × 3 × 2 × 1 = 24
+
+### Code
+
+```python
+def factorial(n):
+    if n == 0:                    # base case — stop here
+        return 1
+    return n * factorial(n - 1)  # recursive case — smaller input
+```
+
+### How I traced it manually
+factorial(4)
+└── 4 × factorial(3)
+└── 3 × factorial(2)
+└── 2 × factorial(1)
+└── 1 × factorial(0)
+└── returns 1  ← base case hit
+← returns 1 × 1 = 1
+← returns 2 × 1 = 2
+← returns 3 × 2 = 6
+← returns 4 × 6 = 24
+
+There are two phases happening here. First the function keeps going
+down building up the call stack. Then once the base case is hit
+the answers start coming back up one by one.
+
+### Complexity
+
+Time  : O(n) — function calls itself n times  
+Space : O(n) — n frames sitting on the call stack at the same time
+
+This was the part that surprised me. Even though I am not creating
+any new array or list, recursion still uses O(n) space because
+every function call sits in memory until it gets its answer back.
+
+---
+
+## Understanding Through Fibonacci
+
+Fibonacci means each number is the sum of the two before it.
+0, 1, 1, 2, 3, 5, 8, 13, 21 ...
+fib(6) = 8
+
+### Code
+
+```python
+def fib(n):
+    if n <= 1:                        # base case — covers 0 and 1
+        return n
+    return fib(n - 1) + fib(n - 2)  # two recursive calls
+```
+
+### Why this is dangerous
+
+Fibonacci makes TWO recursive calls every time. So the number of
+calls doubles at every level. This is what the call tree looks like
+for fib(5):
+                fib(5)
+             /          \
+       fib(4)            fib(3)
+      /      \           /    \
+   fib(3)  fib(2)    fib(2)  fib(1)
+   /   \    /   \    /   \
+fib(2) fib(1) ...  ...  ...
+
+You can see fib(3) is being calculated twice, fib(2) multiple times.
+This is a huge waste. The complexity becomes O(2ⁿ) which is extremely
+slow for large inputs.
+
+### Complexity
+
+Time  : O(2ⁿ) — doubles with every level. Very slow!  
+Space : O(n)  — maximum depth of the call stack at any point
+
+---
+
+## How to Fix Fibonacci — Memoization
+
+The fix is simple. Store the answer the first time you calculate it.
+Next time someone asks for the same value just return the stored answer
+instead of recalculating everything again.
+
+```python
+def fib_memo(n, memo={}):
+    if n <= 1:
+        return n
+    if n in memo:                              # already calculated
+        return memo[n]
+    memo[n] = fib_memo(n-1, memo) + fib_memo(n-2, memo)
+    return memo[n]
+```
+
+Time  : O(n) — each value calculated only once now  
+Space : O(n) — memo dictionary + call stack
+
+This concept is called memoization. I will study it more deeply
+later in dynamic programming. But even knowing it exists at day 2
+feels useful.
+
+---
+
+## The Mistakes I Almost Made Today
+
+Forgot to write return before the recursive call. The function
+was returning None silently and I had no idea why. Always write
+return in front of the recursive call.
+
+I also thought making the input smaller by 1 each time would be
+slow. But that is exactly how it is supposed to work. The base
+case catches it before it goes negative.
+
+---
+
+## Problems Solved Today
+
+| # | Problem | Approach | Time | Space |
+|---|---------|----------|------|-------|
+| 1 | LC 231 - Power of Two | Keep dividing by 2 recursively | O(log n) | O(log n) |
+| 2 | LC 344 - Reverse String | Swap first and last, recurse on middle | O(n) | O(n) |
+
+---
+
+## What I Will Carry Forward
+
+Recursion shows up everywhere later — in trees, graphs, and
+backtracking problems. So understanding it deeply now instead of
+just memorizing it is very important.
+
+Every time I write a recursive function I will now ask:
+1. What is my base case?
+2. Am I making the input smaller?
+3. Did I write return?
+4. What is the space complexity of my call stack?
