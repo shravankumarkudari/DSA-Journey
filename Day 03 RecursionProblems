@@ -1,0 +1,77 @@
+# Day 3 — Recursion on Arrays
+
+Today I used recursion on arrays. The pattern is the same
+for every problem — check one element at a time using index i
+and move forward recursively.
+
+---
+
+## The Pattern I Learned
+
+```python
+def do_something(arr, i=0):
+    if i == len(arr):            # base case — stop here
+        return ___
+    if condition(arr[i]):        # check current element
+        return 1 + do_something(arr, i+1)
+    return do_something(arr, i+1)  # skip and move forward
+```
+
+---
+
+## Problem 1 — Count Elements Greater Than X
+
+```python
+def count_greater(arr, x, i=0):
+    if i == len(arr):
+        return 0
+    if arr[i] > x:
+        return 1 + count_greater(arr, x, i+1)
+    return count_greater(arr, x, i+1)
+```
+
+Time : O(n) | Space : O(n)
+
+Mistake I made — I tried checking the whole array at once.
+Recursion checks one element at a time using arr[i] only.
+
+---
+
+## Problem 2 — Find Minimum
+
+```python
+def find_min(arr, i=0):
+    if i == len(arr) - 1:
+        return arr[i]
+    min_of_rest = find_min(arr, i+1)
+    if arr[i] < min_of_rest:
+        return arr[i]
+    return min_of_rest
+```
+
+Time : O(n) | Space : O(n)
+
+Mistake I made — wrote return 1 in base case instead of
+return arr[i]. Never hardcode base case values.
+
+---
+
+## Problem 3 — Find Maximum
+
+```python
+def find_max(arr, i=0):
+    if i == len(arr) - 1:
+        return arr[i]
+    max_of_rest = find_max(arr, i+1)
+    if arr[i] > max_of_rest:
+        return arr[i]
+    return max_of_rest
+```
+
+Time : O(n) | Space : O(n)
+
+Same as find_min. Only the condition changes from < to >.
+
+---
+
+## What I Learned
