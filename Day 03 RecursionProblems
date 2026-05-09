@@ -1,77 +1,232 @@
-# Day 3 — Recursion on Arrays
+📄 Day03-Recursion-III/README.md
+markdown# Day 3 — Recursion on Arrays
 
-Today I used recursion on arrays. The pattern is the same
-for every problem — check one element at a time using index i
-and move forward recursively.
+Today was the third day of recursion. The first two days I learned
+what recursion is and how it works. Today I actually used recursion
+on arrays and understood how to think through each problem step by step.
 
 ---
 
-## The Pattern I Learned
+## What I Practiced Today
+
+All three problems today were about arrays. The idea was the same
+in every problem — visit one element at a time, check a condition,
+and move to the next index recursively.
+
+---
+
+## The Pattern I Learned Today
+
+Every array recursion problem follows this exact structure:
 
 ```python
 def do_something(arr, i=0):
-    if i == len(arr):            # base case — stop here
-        return ___
-    if condition(arr[i]):        # check current element
-        return 1 + do_something(arr, i+1)
-    return do_something(arr, i+1)  # skip and move forward
+    if i == len(arr):        # base case — fell off the end
+        return ___           # return 0 or False or True
+
+    if condition(arr[i]):    # check current element only
+        return ___ + do_something(arr, i+1)
+
+    return do_something(arr, i+1)   # skip and move forward
 ```
+
+Once I understood this pattern all three problems became easier.
+I just had to change the condition in the middle.
 
 ---
 
 ## Problem 1 — Count Elements Greater Than X
 
+### What the problem asks
+
+Given an array and a number x, count how many elements
+are greater than x using recursion.
+count_greater([1, 5, 3, 7, 2], 3) → 2
+count_greater([1, 2, 3], 5)       → 0
+count_greater([6, 7, 8], 5)       → 3
+
+### What I understood
+
+At first I was thinking about the whole array at once. That was
+wrong. Recursion thinks about one element at a time. So at each
+step I only ask one question — is arr[i] greater than x? If yes
+count it. If no skip it. Then move to the next index.
+
+### Code
+
 ```python
 def count_greater(arr, x, i=0):
     if i == len(arr):
         return 0
+
     if arr[i] > x:
         return 1 + count_greater(arr, x, i+1)
+
     return count_greater(arr, x, i+1)
 ```
 
-Time : O(n) | Space : O(n)
+### Dry run — count_greater([1, 5, 3, 7, 2], 3)
+i=0 → arr[0]=1, 1>3? No  → skip → i=1
+i=1 → arr[1]=5, 5>3? Yes → 1 + → i=2
+i=2 → arr[2]=3, 3>3? No  → skip → i=3
+i=3 → arr[3]=7, 7>3? Yes → 1 + → i=4
+i=4 → arr[4]=2, 2>3? No  → skip → i=5
+i=5 → WALL → return 0
+Coming back up
+1 + 0 = 1
+1 + 1 = 2 ✅
 
-Mistake I made — I tried checking the whole array at once.
-Recursion checks one element at a time using arr[i] only.
+### Complexity
+
+Time  : O(n) — visits every element once  
+Space : O(n) — n frames on call stack
+
+### Mistake I made
+
+I tried to write `if x not in arr` which checks the whole array
+at once. That is not how recursion works. Recursion checks one
+element at a time using the index i. I have to stop thinking about
+the whole array and focus on arr[i] only.
 
 ---
 
-## Problem 2 — Find Minimum
+## Problem 2 — Find Minimum in Array
+
+### What the problem asks
+
+Find the smallest element in the array using recursion.
+find_min([3, 1, 7, 2, 9]) → 1
+find_min([5, 5, 5])        → 5
+find_min([10])             → 10
+
+### What I understood
+
+The base case here is different. Instead of checking
+`i == len(arr)` I check `i == len(arr) - 1`. That means I reached
+the last element. The last element has nothing to compare with so
+I return it directly as the minimum.
+
+Then I compare current element with the minimum of the rest and
+return whichever is smaller.
+
+### Code
 
 ```python
 def find_min(arr, i=0):
     if i == len(arr) - 1:
         return arr[i]
+
     min_of_rest = find_min(arr, i+1)
+
     if arr[i] < min_of_rest:
         return arr[i]
-    return min_of_rest
+    else:
+        return min_of_rest
 ```
 
-Time : O(n) | Space : O(n)
+### Dry run — find_min([3, 1, 7])
+Going down
+find_min(i=0) → find_min(i=1)
+find_min(i=1) → find_min(i=2)
+find_min(i=2) → last element → return 7
+Coming back up
+i=1 → 1 < 7? Yes → return 1
+i=0 → 3 < 1? No  → return 1 ✅
 
-Mistake I made — wrote return 1 in base case instead of
-return arr[i]. Never hardcode base case values.
+### Complexity
+
+Time  : O(n) — visits every element once  
+Space : O(n) — n frames on call stack
+
+### Mistake I made
+
+In the base case I wrote `return 1` instead of `return arr[i]`.
+That was wrong because I was hardcoding a value instead of
+returning the actual last element. The base case should always
+return the real answer for the smallest input, not a hardcoded
+number.
 
 ---
 
-## Problem 3 — Find Maximum
+## Problem 3 — Find Maximum in Array
+
+### What the problem asks
+
+Find the largest element in the array using recursion.
+find_max([3, 1, 7, 2, 9]) → 9
+find_max([5, 5, 5])        → 5
+find_max([10])             → 10
+
+### What I understood
+
+This is exactly the same as find_min. Only one thing changes.
+The condition flips from less than to greater than. That is the
+only difference. Once I saw this pattern it clicked immediately.
+
+### Code
 
 ```python
 def find_max(arr, i=0):
     if i == len(arr) - 1:
         return arr[i]
+
     max_of_rest = find_max(arr, i+1)
+
     if arr[i] > max_of_rest:
         return arr[i]
-    return max_of_rest
+    else:
+        return max_of_rest
 ```
 
-Time : O(n) | Space : O(n)
+### Dry run — find_max([3, 1, 7])
+Going down
+find_max(i=0) → find_max(i=1)
+find_max(i=1) → find_max(i=2)
+find_max(i=2) → last element → return 7
+Coming back up
+i=1 → 1 > 7? No  → return 7
+i=0 → 3 > 7? No  → return 7 ✅
 
-Same as find_min. Only the condition changes from < to >.
+### Complexity
+
+Time  : O(n) — visits every element once  
+Space : O(n) — n frames on call stack
+
+### Find Min vs Find Max — only one thing changes
+find_min → if arr[i] < min_of_rest
+find_max → if arr[i] > max_of_rest
+
+Everything else is identical.
 
 ---
 
-## What I Learned
+## The Big Lesson From Today
+
+At the start of Day 3 I was confused about what
+`if i == len(arr)` means. Now I understand it completely.
+
+When i reaches len(arr) it means we have gone past the last
+valid index. The array only has indexes 0 to len(arr)-1. So
+index len(arr) does not exist. This check acts like a wall that
+stops us from going out of bounds.
+
+For find_min and find_max the wall is at len(arr)-1 because
+we compare arr[i] with arr[i+1]. So we stop one step earlier.
+
+---
+
+## What I Will Remember Forever
+if i == len(arr)     → fell off the end → return 0 or False
+if i == len(arr)-1   → last element → return arr[i]
+Never hardcode base case values
+Always return the actual answer for smallest input
+
+---
+
+## Problems Solved Today
+
+| # | Problem | Time | Space |
+|---|---------|------|-------|
+| 1 | Count elements greater than x | O(n) | O(n) |
+| 2 | Find minimum in array | O(n) | O(n) |
+| 3 | Find maximum in array | O(n) | O(n) |
